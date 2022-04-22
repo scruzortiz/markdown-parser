@@ -19,7 +19,19 @@ public class MarkdownParseTest { //creates class for testing
             assertEquals(List.of("https://something.com", "some-thing.html"), MarkdownParse.getLinks(content));
 
         }catch(IOException e){
-            System.out.println("exception thrown"); 
+      
         }
     }
+
+    @Test
+    public void secondtestgetLinks(){
+        Path filename = Path.of("newtest-file.md");
+        try{
+            String content = Files.readString(filename);
+            assertEquals(List.of(), MarkdownParse.getLinks(content));
+        }catch(IOException e){
+    
+        }
+    }
+    
 }
