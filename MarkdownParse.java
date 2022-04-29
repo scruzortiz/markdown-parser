@@ -10,26 +10,31 @@ public class MarkdownParse {
     public static ArrayList<String> getLinks(String markdown) {
         ArrayList<String> toReturn = new ArrayList<>();
         // find the next [, then find the ], then find the (, then read link upto next )
-        int currentIndex = 0; 
-        //String error = "there is no link to be found";
+        int currentIndex = 0;
         while(currentIndex < markdown.length()) {
             int openBracket = markdown.indexOf("[", currentIndex);
+            //No links left to be found exit
+            if (openBracket == -1) {
+                break;
+            }
             int closeBracket = markdown.indexOf("]", openBracket);
-            int openParen = markdown.indexOf("(", currentIndex);
+            int openParen = markdown.indexOf("(", closeBracket);
+            //no close paren so there is no link, ensures no infinite loop
+            if (openParen == -1) {
+                break;
+            }
             int closeParen = markdown.indexOf(")", openParen);
-            if(openBracket == -1 | openParen == -1){
-                currentIndex = currentIndex + 1;
+            if (markdown.charAt(openBracket-1)== '!' ) {
+                currentIndex = closeParen + 1;
             }
-            else{
-            toReturn.add(markdown.substring(openParen + 1, closeParen));
-            currentIndex = closeParen + 1;
+            else {
+                toReturn.add(markdown.substring(openParen + 1, closeParen));
+                currentIndex = closeParen + 1;
             }
-            
         }
-         
-        
-
-
+        if (toReturn.size() == 0) {
+            System.out.println("No links found");
+        }
         return toReturn;
     }
 
